@@ -25,9 +25,18 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="text-center">
+        <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Login</h1>
+        <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+          Don't have an account yet?
+          <a wire:navigate class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500" href="{{ route('register') }}">
+            Sign up here
+          </a>
+        </p>
+    </div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+       
     <form wire:submit="login">
         <!-- Email Address -->
         <div>

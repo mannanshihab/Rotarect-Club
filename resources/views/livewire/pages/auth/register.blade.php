@@ -37,6 +37,15 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="text-center">
+        <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Register</h1>
+        <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+          Have an account !
+          <a wire:navigate class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500" href="{{ route('login') }}">
+            Sign In
+          </a>
+        </p>
+    </div>
     <form wire:submit="register">
         <!-- Name -->
         <div>
