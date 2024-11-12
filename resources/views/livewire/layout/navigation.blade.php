@@ -41,7 +41,11 @@ new class extends Component
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
+                            @if(auth()->user()->avatar == "")
+                                <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
+                            @else
+                                <img class="shrink-0 size-[38px] rounded-full" src="{{auth()->user()->avatar}}" alt="Avatar">
+                            @endif
                         </button>
                     </x-slot>
 
@@ -51,12 +55,12 @@ new class extends Component
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('settings')" wire:navigate>
-                            {{ __('Settings') }}
+                            {{ __('Change Password') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('user.delete')" wire:navigate>
+                        {{-- <x-dropdown-link :href="route('user.delete')" wire:navigate>
                             {{ __('Delete') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> --}}
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -90,9 +94,15 @@ new class extends Component
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
-            </div>
+            @if(auth()->user()->avatar == "")
+                <div class="px-4">
+                    <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar">
+                </div>
+            @else
+                <div class="px-4">
+                    <img class="shrink-0 size-[38px] rounded-full" src="{{ auth()->user()->avatar }}" alt="Avatar">
+                </div>
+            @endif
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
@@ -102,6 +112,9 @@ new class extends Component
                 
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('settings')" wire:navigate>
+                    {{ __('Change Password') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

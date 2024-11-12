@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('whatsapp')->nullable();
-            $table->string('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
             $table->text('bio')->nullable();
             $table->timestamps();

@@ -5,12 +5,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component
 {
+    use WithFileUploads;
     public string $name = '';
     public string $email = '';
     public $phone = '';
+    public $avatar = '';
+    public $facebook = '';
+    public $twitter = '';
+    public $whatsapp = '';
+    public $date_of_birth = '';
+    public $gender = '';
+    public $bio = '';
+
+
 
     /**
      * Mount the component.
@@ -19,7 +30,13 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->avatar = Auth::user()->avatar;
         $this->phone = Auth::user()->info?->phone ?? null;
+        $this->facebook = Auth::user()->info?->facebook ?? null;
+        $this->whatsapp = Auth::user()->info?->whatsapp ?? null;
+        $this->date_of_birth = Auth::user()->info?->date_of_birth ?? null;
+        $this->gender = Auth::user()->info?->gender ?? null;
+        $this->bio = Auth::user()->info?->bio ?? null;
     }
 
     /**
@@ -30,17 +47,25 @@ new class extends Component
         $user = Auth::user();
 
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'phone' => ['required', 'min:11','string', 'max:255'],
+            'phone' => ['min:11'],
+            'bio'   => ['required', 'string', 'max:250']
         ]);
 
+        //dd($validated);
         $user = $user->fill($validated);
-        $user->info()->updateOrCreate(
-            ['user_id' => $user->id],
-            ['phone' => $validated['phone']],
-        );
 
+        $user->info()->updateOrCreate(
+            ['user_id'  => $user->id],
+            [
+                'phone'    => $validated['phone'],
+                'facebook' => $this->facebook,
+                'whatsapp' => $this->whatsapp,
+                'bio'      => $this->bio,
+                'date_of_birth'      => $this->date_of_birth,
+            ],
+        );
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -51,6 +76,21 @@ new class extends Component
         $this->dispatch('profile-updated', name: $user->name);
     }
 
+    public function updatedAvatar()
+    {
+        $this->validate([
+            'avatar' => 'required|image|max:1024', // 1MB Max
+        ]);
+
+        $user = Auth::user();
+
+        $upload = $this->avatar->store('uploads/Users', 'real_public');
+        $user->update([
+            'avatar' => $upload
+        ]);
+
+        $this->dispatch('profile-updated', name: $user->name);
+    }
     /**
      * Send an email verification notification to the current user.
      */
@@ -68,7 +108,9 @@ new class extends Component
 
         Session::flash('status', 'verification-link-sent');
     }
-}; ?>
+}; 
+
+?>
 
 <section>
     <header>
@@ -95,6 +137,12 @@ new class extends Component
         </div>
 
         <div>
+            <x-input-label for="bio" :value="__('Bio')" />
+            <textarea wire:model="bio" id="bio" name="bio" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" rows="4"></textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -116,6 +164,38 @@ new class extends Component
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <label for="file-input" class="sr-only">Choose file</label>
+            <input type="file" wire:model='avatar' name="file-input" id="file-input" class="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400
+              file:bg-gray-50 file:border-0
+              file:me-4
+              file:py-3 file:px-4
+              dark:file:bg-neutral-700 dark:file:text-neutral-400">
+              <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        </div>
+
+        <h2 class="text-lg font-medium text-gray-900">
+            Other's Information
+        </h2>
+
+        <div>
+            <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
+            <x-text-input wire:model="date_of_birth" id="date_of_birth" name="date_of_birth" type="date" class="mt-1 block w-full" required autofocus autocomplete="bday" />
+            <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+        </div>
+
+        <div>
+            <x-input-label for="facebook" :value="__('Facebook')" />
+            <x-text-input wire:model="facebook" id="facebook" name="facebook" type="text" class="mt-1 block w-full" autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('facebook')" />
+        </div>
+
+        <div>
+            <x-input-label for="whatsapp" :value="__('Whatsapp')" />
+            <x-text-input wire:model="whatsapp" id="whatsapp" name="whatsapp" type="text" class="mt-1 block w-full" autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('whatsapp')" />
         </div>
 
         <div class="flex items-center gap-4">
