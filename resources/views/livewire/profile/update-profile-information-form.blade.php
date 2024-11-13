@@ -12,6 +12,7 @@ new class extends Component
     use WithFileUploads;
     public string $name = '';
     public string $email = '';
+    public $designation = '';
     public $phone = '';
     public $avatar = '';
     public $facebook = '';
@@ -31,6 +32,7 @@ new class extends Component
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
         $this->avatar = Auth::user()->avatar;
+        $this->designation = Auth::user()->info?->designation ?? null;
         $this->phone = Auth::user()->info?->phone ?? null;
         $this->facebook = Auth::user()->info?->facebook ?? null;
         $this->whatsapp = Auth::user()->info?->whatsapp ?? null;
@@ -49,8 +51,8 @@ new class extends Component
         $validated = $this->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'phone' => ['min:11'],
-            'bio'   => ['required', 'string', 'max:250']
+            'phone' => ['required', 'regex:/^\+?\d{11,15}$/'],
+            'bio'   => ['required', 'string', 'max:250'],
         ]);
 
         //dd($validated);
@@ -59,7 +61,8 @@ new class extends Component
         $user->info()->updateOrCreate(
             ['user_id'  => $user->id],
             [
-                'phone'    => $validated['phone'],
+                'designation' => $this->designation,
+                'phone'    => $this->phone,
                 'facebook' => $this->facebook,
                 'whatsapp' => $this->whatsapp,
                 'bio'      => $this->bio,
@@ -125,9 +128,15 @@ new class extends Component
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Full Name')" />
             <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="Designation" :value="__('Designation')" />
+            <x-text-input wire:model="designation" id="designation" name="designation" type="text" class="mt-1 block w-full" autofocus autocomplete="designation" />
+            <x-input-error class="mt-2" :messages="$errors->get('designation')" />
         </div>
 
         <div>

@@ -6,8 +6,8 @@
                 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                     <!-- Title -->
                     <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-                    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Our Members</h2>
-                    <p class="mt-1 text-gray-600 dark:text-neutral-400">Creative people</p>
+                        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Our Members</h2>
+                        <p class="mt-1 text-gray-600 dark:text-neutral-400">Creative people</p>
                     </div>
                     <!-- End Title -->
                 
@@ -27,7 +27,7 @@
                                         {{$user->name}}
                                         </h3>
                                         <p class="text-xs uppercase text-gray-500 dark:text-neutral-500">
-                                        Founder / CEO
+                                            {{ $user->info ? $user->info->designation : 'Memberrr' }}
                                         </p>
                                     </div>
                                 </div>
@@ -37,14 +37,15 @@
                                 </p>
                                 <!-- Social Brands -->
                                 <div class="mt-3 space-x-1">
-                                    <a class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">
-                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <a class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="{{  $user->info ? $user->info->facebook : '#'}}" target="_blank">
+                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" viewBox="0 0 16 16">
                                             <path d="M8.001 0C3.582 0 0 3.582 0 8.001c0 3.993 2.925 7.307 6.75 7.93v-5.608H4.897V8.001h1.853V6.275c0-1.837 1.08-2.853 2.737-2.853.793 0 1.619.142 1.619.142v1.78h-.912c-.899 0-1.18.558-1.18 1.129v1.328h2.012l-.321 2.322H8.015v5.609C11.925 15.308 15 11.994 15 8.001 15 3.582 11.418 0 8.001 0z"/>
                                         </svg>
                                     </a>
-                                    <a class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">
-                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                                    <a class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="{{  $user->info ? $user->info->whatsapp : '#'}}" target="_blank">
+                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.672.149-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.074-.297-.148-1.255-.462-2.39-1.475-.882-.785-1.48-1.753-1.653-2.05-.173-.297-.018-.457.13-.606.133-.132.297-.347.446-.52.15-.173.198-.297.298-.496.099-.198.05-.372-.025-.521-.074-.148-.672-1.591-.922-2.18-.242-.582-.487-.502-.672-.512l-.573-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.478 1.065 2.875 1.213 3.074c.148.198 2.098 3.2 5.077 4.487.709.306 1.261.489 1.691.626.71.225 1.356.193 1.866.117.569-.085 1.758-.719 2.006-1.412.248-.694.248-1.29.173-1.412-.075-.123-.273-.198-.573-.347z"/>
+                                            <path fill-rule="evenodd" d="M12 2c-5.523 0-10 4.477-10 10 0 1.745.458 3.383 1.26 4.804L2 22l5.5-1.26A9.953 9.953 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zM20 12c0 4.418-3.582 8-8 8-.995 0-1.951-.145-2.856-.415l-.856.196-2.35.54.517-2.273.16-.704-.377-.622C5.696 15.261 5 13.693 5 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" clip-rule="evenodd"/>
                                         </svg>
                                     </a>
                                     <a class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">

@@ -36,9 +36,9 @@ new class extends Component
                     <x-nav-link :href="route('members')" :active="request()->routeIs('members')" wire:navigate>
                         {{ __('Members') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('courses')" :active="request()->routeIs('courses')" wire:navigate>
+                    {{-- <x-nav-link :href="route('courses')" :active="request()->routeIs('courses')" wire:navigate>
                         {{ __('Courses') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                     <x-nav-link :href="route('events')" :active="request()->routeIs('events')" wire:navigate>
                         {{ __('Events') }}
                     </x-nav-link>
@@ -102,9 +102,9 @@ new class extends Component
             <x-responsive-nav-link :href="route('members')" :active="request()->routeIs('members')" wire:navigate>
                 {{ __('Members') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('courses')" :active="request()->routeIs('courses')" wire:navigate>
+            {{-- <x-responsive-nav-link :href="route('courses')" :active="request()->routeIs('courses')" wire:navigate>
                 {{ __('Courses') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
             <x-responsive-nav-link :href="route('events')" :active="request()->routeIs('events')" wire:navigate>
                 {{ __('Events') }}
             </x-responsive-nav-link>

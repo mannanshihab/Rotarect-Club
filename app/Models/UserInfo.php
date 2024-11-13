@@ -8,6 +8,7 @@ class UserInfo extends Model
 {
     protected $fillable = [
         'user_id',
+        'designation',
         'phone',
         'facebook',
         'twitter',
