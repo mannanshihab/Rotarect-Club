@@ -2,23 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\EmergencyContactResource\Pages;
+use App\Filament\Resources\EmergencyContactResource\RelationManagers;
+use App\Models\EmergencyContact;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class EmergencyContactResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = EmergencyContact::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,26 +28,25 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                ->required(),
-
-                Forms\Components\TextInput::make('email')
-                ->label('User Email')
-                ->required()
-                ->unique(ignoreRecord:true)
-                ->maxLength(255)
-                ->email(),
-                
-                Forms\Components\Select::make('role')
-                ->options(User::ROLES)
-                ->searchable()
-                ->preload()
-                ->required(),
-
-                Forms\Components\DateTimePicker::make('email_verified_at')
-                ->label('Email Verified')
-                ->default(now()),
-
+                Section::make([
+                    Grid::make()
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('phone')
+                                ->required()
+                                ->maxLength(255)
+                        ]),
+                        Forms\Components\FileUpload::make('image')
+                            ->image()
+                            ->optimize('webp')
+                            ->disk('real_public')
+                            ->directory('EmergencyContact'),
+                        
+                        Hidden::make('created_by')
+                            ->default(auth()->id()),
+                ])
             ]);
     }
 
@@ -53,15 +54,13 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name')
                 ->searchable(),
-                Tables\Columns\TextColumn::make('role')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('phone')
                 ->searchable()
             ])
             ->filters([
-                SelectFilter::make('role')->options(User::ROLES),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
@@ -93,7 +92,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
+            'index' => Pages\ListEmergencyContacts::route('/')
         ];
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('image');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->softDeletes();
             $table->timestamps();
         });
