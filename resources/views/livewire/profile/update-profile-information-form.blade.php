@@ -132,7 +132,7 @@ new class extends Component
 
         <div>
             <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+            <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full" autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
@@ -182,7 +182,7 @@ new class extends Component
 
         <div>
             <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
-            <x-text-input wire:model="date_of_birth" id="date_of_birth" name="date_of_birth" type="date" class="mt-1 block w-full" required autofocus autocomplete="bday" />
+            <x-text-input wire:model="date_of_birth" id="date_of_birth" name="date_of_birth" type="date" class="mt-1 block w-full" autofocus autocomplete="bday" />
             <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
         </div>
 

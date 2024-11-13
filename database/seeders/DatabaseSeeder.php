@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Shihab',
             'email' => 'shihab@test.com',
             'password' => bcrypt('password'),
+            'role' => User::ROLE_SUPER_ADMIN
         ]);
     }
 }
