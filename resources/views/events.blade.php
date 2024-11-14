@@ -5,5 +5,5 @@
         </h2>
     </x-slot>
 
-   
+    <livewire:event-list />
 </x-app-layout>
