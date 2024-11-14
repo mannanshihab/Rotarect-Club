@@ -123,7 +123,7 @@ new class extends Component
             @endif
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
+                {{-- <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div> --}}
             </div>
 
             <div class="mt-3 space-y-1">
